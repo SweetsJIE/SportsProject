@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.xjhaobang.sportsproject.view.EditTextWithDel
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_toStartOf="@+id/iv_scan"
+            android:layout_toLeftOf="@+id/iv_scan"
+            android:background="@drawable/bg_search"
+            android:drawableLeft="@drawable/iv_search"
+            android:drawableStart="@drawable/iv_search"
+            android:drawablePadding="6dp"
+            android:hint="搜索用户 运动团 文章 动态 商品"
+            android:layout_centerVertical="true"
+            android:paddingEnd="9dp"
+            android:paddingStart="9dp"
+            android:layout_marginTop="10dp"
+            android:lines="1"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:completionThreshold="1"/>
+
+        <ImageButton
+            android:id="@+id/iv_scan"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/iv_scan"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
+
+        <FrameLayout
+            android:id="@+id/fl_main_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/view_main_line"
+            android:layout_alignParentTop="true"
+            android:background="@color/white">
+
+        </FrameLayout>
+
+        <View
+            android:id="@+id/view_main_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_above="@+id/ll_main_tab"
+            android:background="#d1d1d1"/>
+
+        <LinearLayout
+            android:id="@+id/ll_main_tab"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:background="#f7f7f7"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:id="@+id/ll_main_product"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_main_tab_product"
+                    android:layout_width="@dimen/dimen_main_tab_icon"
+                    android:layout_height="@dimen/dimen_main_tab_icon"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/tab_main_product"/>
+
+                <TextView
+                    android:id="@+id/tv_main_tab_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:text="产品"
+                    android:textColor="@drawable/tab_main_text_color"
+                    android:textSize="@dimen/dimen_main_tab_text"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_main_cycle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_main_tab_cycle"
+                    android:layout_width="@dimen/dimen_main_tab_icon"
+                    android:layout_height="@dimen/dimen_main_tab_icon"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/tab_main_cycle"/>
+
+                <TextView
+                    android:id="@+id/tv_main_tab_cycle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:text="社区"
+                    android:textColor="@drawable/tab_main_text_color"
+                    android:textSize="@dimen/dimen_main_tab_text"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_main_persion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_main_tab_persion"
+                    android:layout_width="@dimen/dimen_main_tab_icon"
+                    android:layout_height="@dimen/dimen_main_tab_icon"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/tab_main_persion"/>
+
+                <TextView
+                    android:id="@+id/tv_main_tab_persion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:text="我的"
+                    android:textColor="@drawable/tab_main_text_color"
+                    android:textSize="@dimen/dimen_main_tab_text"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
