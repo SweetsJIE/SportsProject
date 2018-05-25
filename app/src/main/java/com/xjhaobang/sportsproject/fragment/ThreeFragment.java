@@ -491,15 +491,15 @@ public class ThreeFragment extends BaseFragment {
 //				}
 				String readMessage = new String(readBuf, 0, msg.arg1);
 				if (readMessage.equals("1,0}"))
-                    mBikeStatus.setText("自行车实时状态      直立状态 无警告");
+                    mBikeStatus.setText("直立状态 无警告");
                 if (readMessage.equals("4,0}"))
-                    mBikeStatus.setText("自行车实时状态      自行车倒下 无警告");
+                    mBikeStatus.setText("自行车倒下 无警告");
                 if (readMessage.equals("5,1}"))
-                    mBikeStatus.setText("自行车实时状态      自行车被抬高超过50cm 警告");
+                    mBikeStatus.setText("自行车被抬高超过50cm 警告");
                 if (readMessage.equals("6,1}"))
-                    mBikeStatus.setText("自行车实时状态      长时间处于抬高 警告");
+                    mBikeStatus.setText("长时间处于抬高 警告");
                 if (readMessage.equals("7,1}"))
-                    mBikeStatus.setText("自行车实时状态      长时间处于震动 警告");
+                    mBikeStatus.setText("长时间处于震动 警告");
                 Log.i(TAG, "MESSAGE: " + readMessage);
 
 				break;
