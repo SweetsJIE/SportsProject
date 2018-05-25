@@ -37,6 +37,7 @@ import static android.widget.Toast.LENGTH_LONG;
 public class ThreeFragment extends BaseFragment {
     private Switch mSwitch1,mSwitch2;
     private TextView mStatus1,mStatus2;
+    private TextView mBikeStatus;
 
     private View view;
 
@@ -123,6 +124,7 @@ public class ThreeFragment extends BaseFragment {
         mStatus1 = view.findViewById(R.id.status2);
         mSwitch2 = view.findViewById(R.id.switch3);
         mStatus2 = view.findViewById(R.id.status3);
+        mBikeStatus = view.findViewById(R.id.bike_status);
 
         mSwitch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -137,10 +139,29 @@ public class ThreeFragment extends BaseFragment {
         mSwitch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String message = null;
                 if (isChecked)
                     mStatus2.setText("防盗功能：已开启");
-                else
+                else {
                     mStatus2.setText("防盗功能：未开启");
+                    message = "c";
+                    try {
+                        message.getBytes("ISO_8859_1");    //转换编码，类似ascii编码
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    if (message.length() > 0) {
+                        // 得到消息字节和告诉bluetoothchatservice写
+                        byte[] send = message.getBytes();
+                        mChatService.write(send);
+                    }
+                }
+//                try {
+//
+//                } catch (UnsupportedEncodingException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
             }
         });
 
@@ -459,8 +480,8 @@ public class ThreeFragment extends BaseFragment {
 //				mmsg += writeMessage;
 //
 //				break;
-//			case MESSAGE_READ:
-//				byte[] readBuf = (byte[]) msg.obj;
+			case MESSAGE_READ:
+				byte[] readBuf = (byte[]) msg.obj;
 //				// 构建一个字符串从有效字节的缓冲区
 //				if (sum==1) {
 //					fmsg+="\n-->\n";
@@ -468,9 +489,20 @@ public class ThreeFragment extends BaseFragment {
 //				}else {
 //					sum++;
 //				}
-//				String readMessage = new String(readBuf, 0, msg.arg1);
-//
-//				break;
+				String readMessage = new String(readBuf, 0, msg.arg1);
+				if (readMessage.equals("1,0}"))
+                    mBikeStatus.setText("自行车实时状态      直立状态 无警告");
+                if (readMessage.equals("4,0}"))
+                    mBikeStatus.setText("自行车实时状态      自行车倒下 无警告");
+                if (readMessage.equals("5,1}"))
+                    mBikeStatus.setText("自行车实时状态      自行车被抬高超过50cm 警告");
+                if (readMessage.equals("6,1}"))
+                    mBikeStatus.setText("自行车实时状态      长时间处于抬高 警告");
+                if (readMessage.equals("7,1}"))
+                    mBikeStatus.setText("自行车实时状态      长时间处于震动 警告");
+                Log.i(TAG, "MESSAGE: " + readMessage);
+
+				break;
                 case MESSAGE_DEVICE_NAME:
                     // 保存该连接装置的名字
                     mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);

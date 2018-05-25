@@ -76,6 +76,8 @@ public class CycleFragment extends BaseFragment {
         mFragmentAdapter = new FragmentAdapter(getActivity().getSupportFragmentManager(),mFragmentList,mStringList);
         mViewpager.setAdapter(mFragmentAdapter);
         mTabLayoutTitle.setupWithViewPager(mViewpager);
+        mViewpager.setCurrentItem(1);
+        mTabLayoutTitle.getTabAt(1).select();
     }
 
     @Override

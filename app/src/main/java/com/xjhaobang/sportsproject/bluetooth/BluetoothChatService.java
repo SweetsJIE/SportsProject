@@ -57,6 +57,7 @@ public class BluetoothChatService {
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
     private int mState;
+    private Thread thread;
 
     public static final int STATE_NONE = 0;
     public static final int STATE_LISTEN = 1;
@@ -119,6 +120,10 @@ public class BluetoothChatService {
 
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
+        // 实例接收客户端传过来的数据线程
+//        thread = new AcceptThread();
+//        // 线程开始
+//        thread.start();
         setState(STATE_CONNECTING);
     }
 
@@ -210,6 +215,9 @@ public class BluetoothChatService {
     private class AcceptThread extends Thread {
 
         private final BluetoothServerSocket mmServerSocket;
+        private BluetoothSocket socket;// 获取到客户端的接口
+        private InputStream is;// 获取到输入流
+        private OutputStream os;// 获取到输出流
 
         @TargetApi(Build.VERSION_CODES.ECLAIR)
         public AcceptThread() {
@@ -227,43 +235,68 @@ public class BluetoothChatService {
 
         @TargetApi(Build.VERSION_CODES.ECLAIR)
         public void run() {
-            if (D) Log.d(TAG, "BEGIN mAcceptThread" + this);
-            setName("AcceptThread");
-            BluetoothSocket socket = null;
+            try {
+                // 接收其客户端的接口
+                socket = mmServerSocket.accept();
+                // 获取到输入流
+                is = socket.getInputStream();
+                // 获取到输出流
+                os = socket.getOutputStream();
 
-
-            while (mState != STATE_CONNECTED) {
-                try {
-
-                    socket = mmServerSocket.accept();
-                } catch (IOException e) {
-                    Log.e(TAG, "accept() failed", e);
-                    break;
+                // 无线循环来接收数据
+                while (true) {
+                    // 创建一个128字节的缓冲
+                    byte[] buffer = new byte[5];
+                    // 每次读取128字节，并保存其读取的角标
+                    int count = is.read(buffer);
+                    // 创建Message类，向handler发送数据
+                    Message msg = new Message();
+                    // 发送一个String的数据，让他向上转型为obj类型
+                    msg.obj = new String(buffer, 0, count, "utf-8");
+                    // 发送数据
+                    mHandler.sendMessage(msg);
                 }
-
-
-                if (socket != null) {
-                    synchronized (BluetoothChatService.this) {
-                        switch (mState) {
-                        case STATE_LISTEN:
-                        case STATE_CONNECTING:
-
-                            connected(socket, socket.getRemoteDevice());
-                            break;
-                        case STATE_NONE:
-                        case STATE_CONNECTED:
-
-                            try {
-                                socket.close();
-                            } catch (IOException e) {
-                                Log.e(TAG, "Could not close unwanted socket", e);
-                            }
-                            break;
-                        }
-                    }
-                }
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
             }
-            if (D) Log.i(TAG, "END mAcceptThread");
+//            if (D) Log.d(TAG, "BEGIN mAcceptThread" + this);
+//            setName("AcceptThread");
+//            BluetoothSocket socket = null;
+//
+//
+//            while (mState != STATE_CONNECTED) {
+//                try {
+//
+//                    socket = mmServerSocket.accept();
+//                } catch (IOException e) {
+//                    Log.e(TAG, "accept() failed", e);
+//                    break;
+//                }
+//
+//
+//                if (socket != null) {
+//                    synchronized (BluetoothChatService.this) {
+//                        switch (mState) {
+//                        case STATE_LISTEN:
+//                        case STATE_CONNECTING:
+//
+//                            connected(socket, socket.getRemoteDevice());
+//                            break;
+//                        case STATE_NONE:
+//                        case STATE_CONNECTED:
+//
+//                            try {
+//                                socket.close();
+//                            } catch (IOException e) {
+//                                Log.e(TAG, "Could not close unwanted socket", e);
+//                            }
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//            if (D) Log.i(TAG, "END mAcceptThread");
         }
 
         @TargetApi(Build.VERSION_CODES.ECLAIR)
@@ -365,8 +398,8 @@ public class BluetoothChatService {
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
            
-        }  
-       
+        }
+
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
             byte[] buffer = new byte[1024];

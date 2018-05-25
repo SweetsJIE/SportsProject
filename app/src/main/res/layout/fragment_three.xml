@@ -5,12 +5,13 @@
               android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/bike_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:text="自行车实时状态"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="自行车实时状态      直立状态 无警告" />
 
     <ImageView
         android:layout_width="150dp"
